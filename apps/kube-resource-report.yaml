@@ -29,7 +29,7 @@ spec:
           tls:
           - hosts:                                                                                                                                                                                                                                        
             - immich.kube-dev.incubateur.net
-            secretName: immich-tls-secret 
+            secretName: krr-tls-secret 
     # helm:
     #   # https://github.com/immich-app/immich-charts/blob/main/charts/immich/values.yaml
     #   values: |
