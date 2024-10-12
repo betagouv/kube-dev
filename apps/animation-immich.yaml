@@ -35,10 +35,10 @@ spec:
             TZ: "Europe/Paris"  
           resources:
             limits:
-              cpu: 800m
+              cpu: 2
               memory: 512Mi
             requests:
-              cpu: 100m
+              cpu: 300m
               memory: 256Mi
           ingress:
             main:
