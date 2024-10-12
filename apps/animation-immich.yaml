@@ -16,6 +16,10 @@ spec:
       # https://github.com/immich-app/immich-charts/blob/main/charts/immich/values.yaml
       values: |
         immich:
+          configuration:
+            logging:
+              enabled: true
+              level: debug
           metrics:
             enabled: true
           persistence:
