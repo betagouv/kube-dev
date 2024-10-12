@@ -20,6 +20,9 @@ spec:
             logging:
               enabled: true
               level: debug
+            server:
+              externalDomain: "immich.kube-dev.incubateur.net"
+              loginPageMessage: "Welcome home"
           metrics:
             enabled: true
           persistence:
