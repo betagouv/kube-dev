@@ -62,14 +62,13 @@ spec:
                  secretName: immich-tls-secret
         postgresql:
           enabled: true
-          global:
-            resources:
-              limits:
-                cpu: 800m
-                memory: 512Mi
-              requests:
-                cpu: 100m
-                memory: 128Mi
+          resources:
+            limits:
+              cpu: 800m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
         redis:
           enabled: true
 
