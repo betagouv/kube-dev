@@ -25,6 +25,7 @@ spec:
             - host: immich.kube-dev.incubateur.net
               paths:
                 - path: "/"
+                  pathType: Prefix
           tls:
           - hosts:                                                                                                                                                                                                                                        
             - immich.kube-dev.incubateur.net
