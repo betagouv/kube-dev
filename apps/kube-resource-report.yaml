@@ -22,7 +22,7 @@ spec:
             cert-manager.io/cluster-issuer: letsencrypt-prod                                                                                                                                                                                              
             kubernetes.io/ingress.class: nginx
           hosts:
-            - host: immich.kube-dev.incubateur.net
+            - host: krr.kube-dev.incubateur.net
               paths:
                 - path: "/"
                   pathType: Prefix
