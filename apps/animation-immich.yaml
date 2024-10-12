@@ -1,0 +1,52 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: immich
+spec:
+  project: animation
+  destination:
+    name: xxx
+    namespace: immich
+  source:
+    repoURL: https://immich-app.github.io/immich-charts
+    targetRevision: main
+    chart: immich
+    helm:
+      # https://github.com/immich-app/immich-charts/blob/main/charts/immich/values.yaml
+      values: |
+        immich:
+          metrics:
+            enabled: true
+          persistence:
+            library:
+              existingClaim: "immich-storage"
+        server:
+          ingress:
+            main:
+              enabled: true
+              annotations:
+                # proxy-body-size is set to 0 to remove the body limit on file uploads
+                nginx.ingress.kubernetes.io/proxy-body-size: "0"
+              hosts:
+                - host: immich.kube-dev.incubateur.net
+                  paths:
+                    - path: "/"
+              tls: []
+        postgres:
+          enabled: true
+        redis:
+          enabled: true
+
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true # Specifies if resources should be pruned during auto-syncing ( false by default ).
+      selfHeal: false # Specifies if partial app sync should be executed when resources are changed only in target Kubernetes cluster and no git change detected ( false by default ).
+      allowEmpty: false # Allows deleting all application resources during automatic syncing ( false by default ).
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
