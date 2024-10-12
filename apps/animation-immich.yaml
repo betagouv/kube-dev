@@ -15,7 +15,6 @@ spec:
     helm:
       # https://github.com/immich-app/immich-charts/blob/main/charts/immich/values.yaml
       values: |
-
         image:
           tag: v1.116.0
         immich:
@@ -46,6 +45,7 @@ spec:
           ingress:
             main:
               enabled: true
+              ingressClassName: nginx
               annotations:
                 nginx.ingress.kubernetes.io/proxy-body-size: '10M'
                 nginx.ingress.kubernetes.io/proxy-read-timeout: '3600'
@@ -54,7 +54,10 @@ spec:
                 - host: immich.kube-dev.incubateur.net
                   paths:
                     - path: "/"
-              tls: []
+              tls:
+               - hosts:                                                                                                                                                                                                                                        
+                 - immich.kube-dev.incubateur.net
+                 secretName: immich-tls-secret
         postgresql:
           enabled: true
           resources:
