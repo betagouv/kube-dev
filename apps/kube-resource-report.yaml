@@ -9,8 +9,8 @@ spec:
     server: https://kubernetes.default.svc
     namespace: tooling
   source:
-    repoURL: https://codeberg.org/hjacobs/kube-resource-report
-    targetRevision: 0.8.1
+    repoURL: https://codeberg.org/hjacobs/kube-resource-report/src/branch/main/unsupported/chart/kube-resource-report
+    targetRevision: 0.6.1
     chart: kube-resource-report
     helm:
       values: |
