@@ -29,21 +29,16 @@ spec:
             library:
               existingClaim: "immich-storage"
         server:
-          service:
-            main: 
-              ports:
-                http:
-                  port: 2283
           env:
             IMMICH_LOG_LEVEL: debug
-            IMMICH_PORT: 2283
             TZ: "Europe/Paris"  
           ingress:
             main:
               enabled: true
               annotations:
-                # proxy-body-size is set to 0 to remove the body limit on file uploads
-                nginx.ingress.kubernetes.io/proxy-body-size: "0"
+                nginx.ingress.kubernetes.io/proxy-body-size: '10M'
+                nginx.ingress.kubernetes.io/proxy-read-timeout: '3600'
+                nginx.ingress.kubernetes.io/proxy-send-timeout: '3600'
               hosts:
                 - host: immich.kube-dev.incubateur.net
                   paths:
