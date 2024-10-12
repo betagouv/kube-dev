@@ -47,6 +47,13 @@ spec:
               tls: []
         postgresql:
           enabled: true
+          resources:
+            limits:
+              cpu: 800m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
         redis:
           enabled: true
 
