@@ -21,7 +21,7 @@ spec:
               enabled: true
               level: debug
             server:
-              externalDomain: "immich.kube-dev.incubateur.net"
+              externalDomain: "https://immich.kube-dev.incubateur.net"
               loginPageMessage: "Welcome home"
           metrics:
             enabled: true
