@@ -6,7 +6,6 @@ metadata:
 spec:
   project: animation
   destination:
-    name: in-cluster
     namespace: immich
   source:
     repoURL: https://immich-app.github.io/immich-charts
