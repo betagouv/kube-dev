@@ -33,6 +33,13 @@ spec:
             IMMICH_LOG_LEVEL: debug
             IMMICH_PORT: 3001
             TZ: "Europe/Paris"  
+          resources:
+            limits:
+              cpu: 800m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 256Mi
           ingress:
             main:
               enabled: true
