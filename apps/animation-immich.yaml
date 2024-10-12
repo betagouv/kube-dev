@@ -25,6 +25,10 @@ spec:
             server:
               externalDomain: "https://immich.kube-dev.incubateur.net"
               loginPageMessage: "Welcome home"
+            map:
+              enabled: false
+            newVersionCheck:
+              enabled: false
           metrics:
             enabled: true
           persistence:
