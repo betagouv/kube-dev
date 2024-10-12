@@ -29,9 +29,15 @@ spec:
             library:
               existingClaim: "immich-storage"
         server:
+          service:
+            main: 
+              ports:
+                http:
+                  port: 2283
           env:
             IMMICH_LOG_LEVEL: debug
-            IMMICH_PORT: 3001
+            IMMICH_PORT: 2283
+            TZ: "Europe/Paris"  
           ingress:
             main:
               enabled: true
