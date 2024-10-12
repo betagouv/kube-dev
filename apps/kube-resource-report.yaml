@@ -28,7 +28,7 @@ spec:
                   pathType: Prefix
           tls:
           - hosts:                                                                                                                                                                                                                                        
-            - immich.kube-dev.incubateur.net
+            - krr.kube-dev.incubateur.net
             secretName: krr-tls-secret 
     # helm:
     #   # https://github.com/immich-app/immich-charts/blob/main/charts/immich/values.yaml
