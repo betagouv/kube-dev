@@ -9,6 +9,7 @@ spec:
     namespace: immich
   source:
     repoURL: https://immich-app.github.io/immich-charts
+    targetRevision: 0.8.1
     chart: immich
     helm:
       # https://github.com/immich-app/immich-charts/blob/main/charts/immich/values.yaml
