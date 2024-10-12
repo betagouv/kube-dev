@@ -6,6 +6,7 @@ metadata:
 spec:
   project: animation
   destination:
+    server: https://kubernetes.default.svc
     namespace: immich
   source:
     repoURL: https://immich-app.github.io/immich-charts
