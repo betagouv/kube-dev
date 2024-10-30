@@ -9,11 +9,15 @@ spec:
     server: https://kubernetes.default.svc
     namespace: tooling
   source:
+    # https://github.com/oauth2-proxy/manifests/blob/main/helm/oauth2-proxy/values.yaml
     repoURL: https://oauth2-proxy.github.io/manifests
     targetRevision: 7.7.28
     chart: oauth2-proxy
     helm:
       values: |
+        envFrom:
+          - configMapRef:
+              name: oauth2-proxy-configmap
         ingress:
           enabled: true
           path: /
