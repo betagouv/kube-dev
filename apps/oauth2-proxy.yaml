@@ -15,7 +15,6 @@ spec:
     chart: oauth2-proxy
     helm:
       values: |
-        httpScheme: https
         config:
           existingSecret: oauth2-proxy-secret
         envFrom:
