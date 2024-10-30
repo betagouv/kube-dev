@@ -17,25 +17,7 @@ spec:
       values: |
         image:
           tag: v1.116.0
-        livenessProbe:
-          failureThreshold: 10
-          httpGet:
-            path: /api/server/ping
-            port: http
-            scheme: HTTP
-          periodSeconds: 10
-          successThreshold: 1
-          timeoutSeconds: 1
         immich:
-          livenessProbe:
-            failureThreshold: 10
-            httpGet:
-              path: /api/server/ping
-              port: http
-              scheme: HTTP
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 1
           configuration:
             logging:
               enabled: true
@@ -57,6 +39,13 @@ spec:
             IMMICH_LOG_LEVEL: debug
             IMMICH_PORT: 3001
             TZ: "Europe/Paris" 
+          resources:
+            limits:
+              cpu: 2
+              memory: 1Gi
+            requests:
+              cpu: 300m
+              memory: 256Mi
           livenessProbe:
             failureThreshold: 10
             httpGet:
@@ -65,14 +54,7 @@ spec:
               scheme: HTTP
             periodSeconds: 10
             successThreshold: 1
-            timeoutSeconds: 1
-          resources:
-            limits:
-              cpu: 2
-              memory: 1Gi
-            requests:
-              cpu: 300m
-              memory: 256Mi
+            timeoutSeconds: 3
           ingress:
             main:
               enabled: true
