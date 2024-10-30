@@ -20,7 +20,7 @@ spec:
           hosts:
             - oauth.kube-dev.incubateur.net
           annotations:
-            kubernetes.io/ingress.class: external
+            kubernetes.io/ingress.class: nginx
             cert-manager.io/cluster-issuer: letsencrypt-prod
           tls:
             - hosts:
