@@ -38,7 +38,7 @@ spec:
           env:
             IMMICH_LOG_LEVEL: debug
             IMMICH_PORT: 3001
-            TZ: "Europe/Paris"  
+            TZ: "Europe/Paris" 
           livenessProbe:                                                                                                                                                                                           │
             failureThreshold: 10                                                                                                                                                                                    │
             httpGet:                                                                                                                                                                                               │
