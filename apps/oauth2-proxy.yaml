@@ -25,6 +25,7 @@ spec:
           tls:
             - hosts:
                 - oauth.kube-dev.incubateur.net
+              secretName: oauth-tls-secret
 
   syncPolicy:
     syncOptions:
