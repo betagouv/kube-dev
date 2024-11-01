@@ -20,8 +20,8 @@ spec:
         chart: postgresql
         helm:
           # https://artifacthub.io/packages/helm/bitnami/postgresql
-          values: |
-            nameOverride: {{name}}
+          valuesObject:
+            nameOverride: '{{name}}'
             primary:
               resourcesPreset: "small"
       destination:
