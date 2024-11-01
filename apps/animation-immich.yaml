@@ -21,7 +21,6 @@ spec:
           configuration:
             logging:
               enabled: true
-              level: debug
             server:
               externalDomain: "https://immich.kube-dev.incubateur.net"
               loginPageMessage: "Welcome home"
@@ -36,7 +35,7 @@ spec:
               existingClaim: "immich-storage"
         server:
           env:
-            IMMICH_LOG_LEVEL: info
+            IMMICH_LOG_LEVEL: log
             IMMICH_PORT: 3001
             TZ: "Europe/Paris" 
           resources:
