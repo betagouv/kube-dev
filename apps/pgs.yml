@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: pgs
+  namespace: argocd
+spec:
+  generators:
+  - list:
+      elements:
+      - id: test1
+        namespace: tooling
+    metadata:
+      name: 'pg-{{id}}'
+    spec:
+      project: tooling
+      sources:
+        repoURL: oci://registry-1.docker.io/bitnamicharts/postgresql
+        targetRevision: 16.1.0
+        chart: postgresql
+        helm:
+          # https://artifacthub.io/packages/helm/bitnami/postgresql
+          values: |
+            nameOverride: {{name}}
+            primary:
+              resourcesPreset: "small"
+      destination:
+        server: 'https://kubernetes.default.svc'
+        namespace: '{{namespace}}'
+      syncPolicy:
+        automated:
+          selfHeal: true    
+        syncOptions:
+        - CreateNamespace=true     

@@ -36,16 +36,16 @@ spec:
               existingClaim: "immich-storage"
         server:
           env:
-            IMMICH_LOG_LEVEL: debug
+            IMMICH_LOG_LEVEL: info
             IMMICH_PORT: 3001
             TZ: "Europe/Paris" 
           resources:
             limits:
               cpu: 2
-              memory: 1Gi
+              memory: 1.5Gi
             requests:
               cpu: 300m
-              memory: 256Mi
+              memory: 768Mi
           probes:
             liveness:
               spec:
