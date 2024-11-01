@@ -1,0 +1,10 @@
+# https://artifacthub.io/packages/helm/bitnami/postgresql
+
+extraVolumeMounts:
+  - name: matomo-to-pg-languia-initdb
+    mountPath: /docker-entrypoint-initdb.d
+    readOnly: true
+extraVolumes:
+  - name: matomo-to-pg-languia-initdb
+    configMap:
+      name: matomo-to-pg-languia-initdb
