@@ -15,7 +15,7 @@ spec:
     spec:
       project: tooling
       source:
-        repoURL: oci://registry-1.docker.io/bitnamicharts/postgresql
+        repoURL: registry-1.docker.io/bitnamicharts/postgresql
         targetRevision: 16.1.0
         chart: postgresql
         helm:
