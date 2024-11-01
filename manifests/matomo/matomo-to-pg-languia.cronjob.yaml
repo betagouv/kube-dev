@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  labels:
+    application: matomo
+  name: matomo-to-pg-languia
+  namespace: matomo
+spec:
+  schedule: 0 * * * *
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            application: matomo
+          name: matomo-to-pg-languia
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: matomo-to-pg
+              image: ghcr.io/betagouv/matomo-to-pg/sync
+              resources:
+                requests:
+                  cpu: "0.3"
+                  memory: 256Mi
+                limits:
+                  cpu: "1"
+                  memory: 512Mi
+              envFrom:
+                - secretRef:
+                    name: matomo-to-pg-languia
+             
