@@ -20,11 +20,11 @@ spec:
           chart: postgresql
           # https://artifacthub.io/packages/helm/bitnami/postgresql
           helm:
-            parameters:
-            - name: "nameOverride"
-              value: '{{id}}'
-            - name: "primary.resourcesPreset"
-              value: 'small'
+            # parameters:
+            # - name: "nameOverride"
+            #   value: '{{id}}'
+            # - name: "primary.resourcesPreset"
+            #   value: 'small'
             # valuesObject:
             #   nameOverride: '{{id}}'
             #   primary:

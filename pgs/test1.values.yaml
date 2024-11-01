@@ -1,9 +1,15 @@
 # https://artifacthub.io/packages/helm/bitnami/postgresql
 
+nameOverride: pg-test1
+
+primary:
+  resourcesPreset: "small"
+
 extraVolumeMounts:
   - name: matomo-to-pg-languia-initdb
     mountPath: /docker-entrypoint-initdb.d
     readOnly: true
+
 extraVolumes:
   - name: matomo-to-pg-languia-initdb
     configMap:
