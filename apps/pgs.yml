@@ -21,7 +21,7 @@ spec:
           # https://artifacthub.io/packages/helm/bitnami/postgresql
           helm:
             valuesObject:
-              nameOverride: '{{name}}'
+              nameOverride: '{{id}}'
               primary:
                 resourcesPreset: "small"
             valueFiles:
