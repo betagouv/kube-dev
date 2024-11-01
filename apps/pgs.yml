@@ -24,14 +24,13 @@ spec:
               nameOverride: '{{name}}'
               primary:
                 resourcesPreset: "small"
-            valuesFile:
-              - "pgs/{{id}}.values.yaml"
+            valueFiles:
+              - "$values/{{id}}.values.yaml"
             ignoreMissingValueFiles: true
         - repoURL: https://github.com/betagouv/kube-dev
           targetRevision: HEAD
           path: pgs
-          directory:
-            recurse: true
+          ref: values
       destination:
         server: 'https://kubernetes.default.svc'
         namespace: '{{namespace}}'
