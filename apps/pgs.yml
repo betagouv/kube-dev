@@ -26,7 +26,7 @@ spec:
                 resourcesPreset: "small"
             valueFiles:
               - '$values/pgs/{{id}}.values.yaml'
-            ignoreMissingValueFiles: true
+            #ignoreMissingValueFiles: true
         - repoURL: https://github.com/betagouv/kube-dev
           targetRevision: HEAD
           path: pgs
