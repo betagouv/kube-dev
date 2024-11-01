@@ -9,6 +9,7 @@ spec:
       elements:
       - id: test1
         namespace: tooling
+  template:
     metadata:
       name: 'pg-{{id}}'
     spec:
