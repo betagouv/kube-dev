@@ -30,7 +30,7 @@ spec:
             #   primary:
             #     resourcesPreset: "small"
             valueFiles:
-              - '$values/{{id}}.values.yaml'
+              - '$values/pgs/{{id}}.values.yaml'
             ignoreMissingValueFiles: false
         - repoURL: https://github.com/betagouv/kube-dev
           targetRevision: HEAD
