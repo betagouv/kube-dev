@@ -8,7 +8,7 @@ spec:
   - list:
       elements:
       - id: test1
-        namespace: tooling
+        namespace: matomo
   template:
     metadata:
       name: 'pg-{{id}}'
