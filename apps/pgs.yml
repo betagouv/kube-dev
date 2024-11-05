@@ -9,6 +9,8 @@ spec:
       elements:
       - id: test1
         namespace: matomo
+      - id: lychee
+        namespace: lychee
   template:
     metadata:
       name: 'pg-{{id}}'
