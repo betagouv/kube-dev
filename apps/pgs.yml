@@ -13,7 +13,7 @@ spec:
             namespace: lychee
   template:
     metadata:
-      name: "{{id}}"
+      name: "pg-{{id}}"
     spec:
       project: tooling
       sources:
