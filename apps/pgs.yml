@@ -7,8 +7,8 @@ spec:
   generators:
     - list:
         elements:
-          - id: test1
-            namespace: matomo
+          # - id: test1
+          #   namespace: matomo
           - id: lychee
             namespace: lychee
   template:
