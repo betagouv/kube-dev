@@ -24,7 +24,7 @@ spec:
           helm:
             parameters:
             - name: "nameOverride"
-              value: '{{id}}'
+              value: 'pg-{{id}}'
             valueFiles:
               - '$values/pgs/{{id}}.values.yaml'
             ignoreMissingValueFiles: false

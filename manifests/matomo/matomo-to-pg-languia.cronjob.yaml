@@ -27,7 +27,9 @@ spec:
                 limits:
                   cpu: "1"
                   memory: 512Mi
+              env:
+                - name: NODE_TLS_REJECT_UNAUTHORIZED
+                  value: "0"
               envFrom:
                 - secretRef:
                     name: matomo-to-pg-languia
-             
