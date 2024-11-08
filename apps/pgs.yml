@@ -5,15 +5,15 @@ metadata:
   namespace: argocd
 spec:
   generators:
-  - list:
-      elements:
-      - id: test1
-        namespace: matomo
-      - id: lychee
-        namespace: lychee
+    - list:
+        elements:
+          - id: test1
+            namespace: matomo
+          - id: lychee
+            namespace: lychee
   template:
     metadata:
-      name: 'pg-{{id}}'
+      name: "{{id}}"
     spec:
       project: tooling
       sources:
@@ -23,20 +23,20 @@ spec:
           # https://artifacthub.io/packages/helm/bitnami/postgresql
           helm:
             parameters:
-            - name: "nameOverride"
-              value: 'pg-{{id}}'
+              - name: "nameOverride"
+                value: "pg-{{id}}"
             valueFiles:
-              - '$values/pgs/{{id}}.values.yaml'
-            ignoreMissingValueFiles: false
+              - "$values/pgs/{{id}}.values.yaml"
+            ignoreMissingValueFiles: true
         - repoURL: https://github.com/betagouv/kube-dev
           targetRevision: HEAD
           path: pgs
           ref: values
       destination:
-        server: 'https://kubernetes.default.svc'
-        namespace: '{{namespace}}'
+        server: "https://kubernetes.default.svc"
+        namespace: "{{namespace}}"
       syncPolicy:
         automated:
-          selfHeal: true    
+          selfHeal: true
         syncOptions:
-        - CreateNamespace=true     
+          - CreateNamespace=true
