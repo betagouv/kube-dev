@@ -12,6 +12,9 @@ eck-stack:
     spec:
       elasticsearchRef:
         name: elk1-elasticsearch
+      config:
+        server:
+          publicBaseUrl: "https://kibana.elk1.kube-dev.incubateur.net"
     ingress:
       hosts:
         - host: "kibana.elk1.kube-dev.incubateur.net"
