@@ -12,8 +12,6 @@ eck-stack:
     elasticsearchRef:
       name: elk1-elasticsearch
     ingress:
-      enabled: true
-      pathType: Prefix
       hosts:
         - host: "kibana.elk1.kube-dev.incubateur.net"
           path: "/"
