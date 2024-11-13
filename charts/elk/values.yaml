@@ -19,6 +19,7 @@ eck-stack:
           path: "/"
       tls:
         enabled: true
+        secretName: elasticsearch-tls
 
     http:
       service:
@@ -72,6 +73,7 @@ eck-stack:
           path: "/"
       tls:
         enabled: true
+        secretName: kibana-tls
 
   eck-apm-server:
     enabled: true
