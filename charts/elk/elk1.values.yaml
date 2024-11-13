@@ -7,10 +7,6 @@ eck-stack:
       hosts:
         - host: "elastic.elk1.kube-dev.incubateur.net"
           path: "/"
-      tls:
-        - hosts:
-            - elastic.elk1.kube-dev.incubateur.net
-          secretName: elastic-elk1-tls-secret
   eck-kibana:
     fullnameOverride: elk1-kibana
     elasticsearchRef:
@@ -21,13 +17,6 @@ eck-stack:
       hosts:
         - host: "kibana.elk1.kube-dev.incubateur.net"
           path: "/"
-      tls:
-        - hosts:
-            - kibana.elk1.kube-dev.incubateur.net
-          secretName:
-            kibana-elk1-tls-secret
-            #tls: true
-
   eck-apm-server:
     fullnameOverride: elk1-apm
     elasticsearchRef:

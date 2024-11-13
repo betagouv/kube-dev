@@ -17,7 +17,8 @@ eck-stack:
       hosts:
         - host: "elastic.kube-dev.incubateur.net"
           path: "/"
-      #tls: true
+      tls:
+        enabled: true
 
     http:
       service:
@@ -69,7 +70,8 @@ eck-stack:
       hosts:
         - host: "kibana.kube-dev.incubateur.net"
           path: "/"
-      #tls: true
+      tls:
+        enabled: true
 
   eck-apm-server:
     enabled: true
