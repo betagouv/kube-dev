@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: elks
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - id: elk1
+            namespace: elk1
+  template:
+    metadata:
+      name: "elk-{{id}}"
+    spec:
+      project: tooling
+      sources:
+        - repoURL: https://github.com/betagouv/kube-dev
+          targetRevision: HEAD
+          path: charts/elk
+          helm:
+            valueFiles:
+              - "values.yaml"
+              - "{{id}}.values.yaml"
+            ignoreMissingValueFiles: true
+      destination:
+        server: "https://kubernetes.default.svc"
+        namespace: "{{namespace}}"
+      syncPolicy:
+        automated:
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

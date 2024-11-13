@@ -1,0 +1,93 @@
+#https://github.com/elastic/cloud-on-k8s/tree/2.14/deploy/eck-stack
+
+eck-stack:
+  eck-elasticsearch:
+    enabled: true
+
+    # Name of the Elasticsearch instance.
+    #
+    fullnameOverride: elasticsearch
+
+    ingress:
+      enabled: true
+      annotations:
+        my: annotation
+      labels:
+        my: label
+      pathType: Prefix
+      hosts:
+        - host: "elastic.kube-dev.incubateur.net"
+          path: "/"
+      #tls: true
+
+    http:
+      service:
+        metadata:
+          annotations:
+            # This is required for `ClusterIP` services (which are the default ECK service type) to be used with Ingress in GKE clusters.
+            # cloud.google.com/neg: '{"ingress": true}'
+            # cloud.google.com/app-protocols: '{"https":"HTTPS"}'
+            # cloud.google.com/backend-config: '{"default": "elasticsearch"}'
+
+    nodeSets:
+      - name: default
+        count: 3
+        # Comment out when setting the vm.max_map_count via initContainer, as these are mutually exclusive.
+        # For production workloads, it is strongly recommended to increase the kernel setting vm.max_map_count to 262144
+        # and leave node.store.allow_mmap unset.
+        # ref: https://www.elastic.co/guide/en/cloud-on-k8s/master/k8s-virtual-memory.html
+        #
+        config:
+          node.store.allow_mmap: false
+        # podTemplate:
+        #   spec:
+        #     containers:
+        #     - name: elasticsearch
+        #       resources:
+        #         limits:
+        #           memory: 2Gi
+        #         requests:
+        #           memory: 2Gi
+  eck-kibana:
+    enabled: true
+
+    # Name of the Kibana instance.
+    #
+    fullnameOverride: kibana
+
+    spec:
+      config:
+        xpack.fleet.packages:
+          - name: apm
+            version: latest
+
+    ingress:
+      enabled: true
+      pathType: Prefix
+      hosts:
+        - host: "kibana.kube-dev.incubateur.net"
+          path: "/"
+      #tls: true
+
+  eck-apm-server:
+    enabled: true
+
+    fullnameOverride: apm
+
+    # Count of APM Server replicas to create.
+    #
+    count: 1
+
+    # Reference to ECK-managed Elasticsearch resource.
+    #
+    elasticsearchRef:
+      name: elasticsearch
+    kibanaRef:
+      name: kibana
+    http:
+      service:
+        spec:
+          ports:
+            - name: http
+              port: 8200
+              targetPort: 8200

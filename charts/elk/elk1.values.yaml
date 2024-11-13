@@ -1,0 +1,29 @@
+#https://github.com/elastic/cloud-on-k8s/tree/2.14/deploy/eck-stack
+
+eck-stack:
+  eck-elasticsearch:
+    fullnameOverride: elk1-elasticsearch
+    ingress:
+      hosts:
+        - host: "elastic.elk1.kube-dev.incubateur.net"
+          path: "/"
+      #tls: true
+
+  eck-kibana:
+    fullnameOverride: elk1-kibana
+    elasticsearchRef:
+      name: elk1-elasticsearch
+    ingress:
+      enabled: true
+      pathType: Prefix
+      hosts:
+        - host: "kibana.elk1.kube-dev.incubateur.net"
+          path: "/"
+      #tls: true
+
+  eck-apm-server:
+    fullnameOverride: elk1-apm
+    elasticsearchRef:
+      name: elk1-elasticsearch
+    kibanaRef:
+      name: elk1-kibana
