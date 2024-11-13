@@ -9,8 +9,9 @@ eck-stack:
           path: "/"
   eck-kibana:
     fullnameOverride: elk1-kibana
-    elasticsearchRef:
-      name: elk1-elasticsearch
+    spec:
+      elasticsearchRef:
+        name: elk1-elasticsearch
     ingress:
       hosts:
         - host: "kibana.elk1.kube-dev.incubateur.net"
