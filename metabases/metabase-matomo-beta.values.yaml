@@ -32,4 +32,4 @@ extraEnv:
         name: pg-matomo-beta
         key: postgres-password
   - name: MB_DB_CONNECTION_URI
-    value: "postgres://postgres:5432/postgres?user=postgres&password=$(PG_PASSWORD)"
+    value: "postgres://pg-matomo-beta:5432/postgres?user=postgres&password=$(PG_PASSWORD)"
