@@ -11,6 +11,8 @@ spec:
           #   namespace: matomo
           - id: lychee
             namespace: lychee
+          - id: matomo-beta
+            namespace: matomo
   template:
     metadata:
       name: "pg-{{id}}"
