@@ -12,12 +12,12 @@ ingress:
     nginx.ingress.kubernetes.io/auth-signin: https://oauth.kube-dev.incubateur.net/oauth2/start?rd=https%3A%2F%2F$host$escaped_request_uri
     nginx.ingress.kubernetes.io/auth-url: https://oauth.kube-dev.incubateur.net/oauth2/auth
   hosts:
-    - "{{ .Release.Name }}.kube-dev.incubateur.net"
+    - {{ .Release.Name }}.kube-dev.incubateur.net
   tls:
     # Secrets must be manually created in the namespace.
     - secretName: metabase-tls
       hosts:
-        - "{{ .Release.Name }}.kube-dev.incubateur.net"
+        - {{ .Release.Name }}.kube-dev.incubateur.net
 
 envFrom:
   - type: secret
