@@ -20,10 +20,10 @@ ingress:
         - "{{ .Release.Name }}.kube-dev.incubateur.net"
 
 envFrom:
-  - secretRef:
-      name: metabase # provided by manifests folders for the dedicated MB_ENCRYPTION_SECRET_KEY
-  - secretRef:
-      name: smtp-creds
+  - type: secret
+    name: metabase # provided by manifests folders for the dedicated MB_ENCRYPTION_SECRET_KEY
+  - type: secret
+    name: smtp-creds
 
 extraEnv:
   - name: PG_PASSWORD
