@@ -49,9 +49,9 @@ spec:
                 value: "{{name}}.kube-dev.incubateur.net"
               - name: "ingress.tls[0].hosts[0]"
                 value: "{{name}}.kube-dev.incubateur.net"
-            # valueFiles:
-            #   - "$values/metabases/values.yaml"
-            #   - "$values/metabases/{{name}}.values.yaml"
+            valueFiles:
+              #    - "$values/metabases/values.yaml"
+              - "$values/metabases/{{name}}.values.yaml"
             ignoreMissingValueFiles: true
         - repoURL: https://github.com/betagouv/kube-dev
           targetRevision: HEAD
