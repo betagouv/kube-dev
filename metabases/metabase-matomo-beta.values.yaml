@@ -4,7 +4,7 @@ envFrom:
   - type: secret
     name: metabase-matomo-beta # provided by manifests folders for the dedicated MB_ENCRYPTION_SECRET_KEY
   - type: secret
-    name: smtp-matomo-beta
+    name: smtp-metabase-matomo-beta
 
 extraEnv:
   - name: PG_PASSWORD
