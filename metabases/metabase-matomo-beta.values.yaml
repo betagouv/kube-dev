@@ -1,0 +1,35 @@
+# https://github.com/pmint93/helm-charts/blob/master/charts/metabase/values.yaml
+
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/auth-response-headers:
+      X-Auth-Request-Email,X-Auth-Request-Preferred-,X-Auth-Request-Access-Token,
+      X-Auth-Request-Roles,X-Auth-Request-User,X-Auth-Request-Groups,X-Forwarded-Groups,
+      Authorization
+    nginx.ingress.kubernetes.io/auth-signin: https://oauth.kube-dev.incubateur.net/oauth2/start?rd=https%3A%2F%2F$host$escaped_request_uri
+    nginx.ingress.kubernetes.io/auth-url: https://oauth.kube-dev.incubateur.net/oauth2/auth
+  hosts:
+    - "{{ .Release.Name }}.kube-dev.incubateur.net"
+  tls:
+    # Secrets must be manually created in the namespace.
+    - secretName: metabase-tls
+      hosts:
+        - "{{ .Release.Name }}.kube-dev.incubateur.net"
+
+envFrom:
+  - secretRef:
+      name: metabase # provided by manifests folders for the dedicated MB_ENCRYPTION_SECRET_KEY
+  - secretRef:
+      name: smtp-creds
+
+extraEnv:
+  - name: PG_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: pg-matomo-beta
+        key: postgres-password
+  - name: MB_DB_CONNECTION_URI
+    value: "postgres://postgres:5432/postgres?user=postgres&password=$(PG_PASSWORD)"
