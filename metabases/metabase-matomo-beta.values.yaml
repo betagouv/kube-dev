@@ -2,9 +2,9 @@
 
 envFrom:
   - type: secret
-    name: metabase # provided by manifests folders for the dedicated MB_ENCRYPTION_SECRET_KEY
+    name: metabase-matomo-beta # provided by manifests folders for the dedicated MB_ENCRYPTION_SECRET_KEY
   - type: secret
-    name: smtp-creds
+    name: smtp-matomo-beta
 
 extraEnv:
   - name: PG_PASSWORD
@@ -14,3 +14,5 @@ extraEnv:
         key: postgres-password
   - name: MB_DB_CONNECTION_URI
     value: "postgres://pg-matomo-beta:5432/postgres?user=postgres&password=$(PG_PASSWORD)"
+  - name: MB_SITE_URL
+    value: ""
