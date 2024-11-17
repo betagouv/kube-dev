@@ -16,6 +16,8 @@ spec:
             application: matomo
           name: matomo-to-pg-beta
         spec:
+          nodeSelector:
+            kubernetes.io/hostname: default-pool-node-c117c3
           restartPolicy: OnFailure
           containers:
             - name: matomo-to-pg
