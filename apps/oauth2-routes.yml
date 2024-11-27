@@ -1,0 +1,67 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: oauth2-routes
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - id: httpbin-proxy
+            host: httpbin.kube-dev.incubateur.net
+            target_host: httpbin.org
+  template:
+    metadata:
+      name: "oauth2-{{id}}"
+    spec:
+      project: tooling
+      sources:
+        - repoURL: https://github.com/betagouv/kube-dev
+          targetRevision: HEAD
+          path: oauth2-routes
+          kustomize:
+            patches:
+              - target:
+                  kind: Ingress
+                patch: |-
+                  - op: replace
+                    path: /metadata/labels/annotations/nginx.ingress.kubernetes.io\/upstream-vhost
+                    value: "{{target_host}}"
+                  - op: replace
+                    path: /metadata/labels/app
+                    value: "oauth2-{{id}}"
+                  - op: replace
+                    path: /metadata/name
+                    value: "oauth2-{{id}}"
+                  - op: replace
+                    path: /spec/rules/0/host
+                    value: "{{host}}"
+                  - op: replace
+                    path: /spec/rules/0/http/paths/0/backend/service/name
+                    value: "oauth2-{{id}}"
+                  - op: replace
+                    path: /spec/tls/0/hosts/0
+                    value: "{{host}}"
+                  - op: replace
+                    path: /spec/tls/0/secretName
+                    value: "oauth2-{{id}}-tls"
+              - target:
+                  kind: Service
+                patch: |-
+                  - op: replace
+                    path: /metadata/labels/app
+                    value: "oauth2-{{id}}"
+                  - op: replace
+                    path: /metadata/name
+                    value: "oauth2-{{id}}"
+                  - op: replace
+                    path: /spec/externalName
+                    value: "{{target_host}}"
+      destination:
+        server: "https://kubernetes.default.svc"
+        namespace: "tooling"
+      syncPolicy:
+        automated:
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
