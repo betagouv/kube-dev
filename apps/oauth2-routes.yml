@@ -9,7 +9,7 @@ spec:
         elements:
           - id: httpbin-proxy
             host: httpbin.kube-dev.incubateur.net
-            target_host: httpbin.org
+            target_host: beta.gouv.fr
   template:
     metadata:
       name: "oauth2-{{id}}"
