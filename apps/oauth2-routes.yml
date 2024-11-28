@@ -25,7 +25,7 @@ spec:
                   kind: Ingress
                 patch: |-
                   - op: replace
-                    path: /metadata/labels/annotations/nginx.ingress.kubernetes.io\/upstream-vhost
+                    path: /metadata/annotations/nginx.ingress.kubernetes.io\/upstream-vhost
                     value: "{{target_host}}"
                   - op: replace
                     path: /metadata/labels/app
