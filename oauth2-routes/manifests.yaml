@@ -1,3 +1,6 @@
+# https://torchbox.github.io/k8s-ts-ingress/external/
+# https://www.kristhecodingunicorn.com/post/kubernetes-service-to-proxy-to-external-services/
+
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:

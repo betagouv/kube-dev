@@ -8,6 +8,8 @@ spec:
     - list:
         elements:
           # add the urls you want to protect with oauth2/github betagouv organisation
+          # these urls should be accessible by 57.128.17.152, 193.70.74.46, 217.182.104.248
+          # todo: use OVH load balancer for fixed outbound IP or use CNAMES
           - id: httpbin-proxy
             host: httpbin.kube-dev.incubateur.net
             target_host: httpbin.org
