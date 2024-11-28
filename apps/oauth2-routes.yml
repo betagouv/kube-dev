@@ -23,7 +23,7 @@ spec:
   goTemplate: true
   template:
     metadata:
-      name: "oauth2-{{id}}"
+      name: "oauth2-{{.id}}"
     spec:
       project: tooling
       sources:
