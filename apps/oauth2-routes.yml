@@ -13,6 +13,7 @@ spec:
           - id: httpbin-proxy
             host: httpbin.kube-dev.incubateur.net
             target_host: httpbin.org
+            target_port: 443
           - id: demo-proxy
             host: demo-proxy.kube-dev.incubateur.net
             target_host: b932b288-0371-4948-a0c5-ceb8cf72f3c7.pub.instances.scw.cloud
@@ -41,7 +42,7 @@ spec:
                     value: "{{.target_host}}"
                   - op: replace
                     path: "/metadata/annotations/nginx.ingress.kubernetes.io~1backend-protocol"
-                    value: "{{ ternary "HTTP" "HTTPS" (eq .target_port \"80\") }}"
+                    value: "{{ if eq .target_port 80 }}HTTP{{ else }}HTTPS{{ end }}"
                   - op: replace
                     path: /metadata/labels/app
                     value: "oauth2-{{.id}}"
@@ -74,7 +75,7 @@ spec:
                     value: "{{.target_host}}"
                   - op: replace
                     path: /spec/ports/0/targetPort
-                    value: "{{ if .target_port }}{{ .target_port }}{{ else }}443{{ end }}"
+                    value: "{{.target_port}}"
       destination:
         server: "https://kubernetes.default.svc"
         namespace: "tooling"
