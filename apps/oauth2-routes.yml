@@ -14,6 +14,9 @@ spec:
           - id: bgv-proxy
             host: bgv.kube-dev.incubateur.net
             target_host: beta.gouv.fr
+          - id: metabase-proxy
+            host: metabase.kube-dev.incubateur.net
+            target_host: metabase.incubateur.net
   template:
     metadata:
       name: "oauth2-{{id}}"
