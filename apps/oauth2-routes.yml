@@ -42,7 +42,7 @@ spec:
                     value: "{{.target_host}}"
                   - op: replace
                     path: "/metadata/annotations/nginx.ingress.kubernetes.io~1backend-protocol"
-                    value: "{{ if eq .target_port 80 }}HTTP{{ else }}HTTPS{{ end }}"
+                    value: "{{ ternary "HTTP" "HTTPS" (eq (toString .target_port) "80") }}"
                   - op: replace
                     path: /metadata/labels/app
                     value: "oauth2-{{.id}}"
