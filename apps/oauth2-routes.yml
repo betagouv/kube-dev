@@ -10,6 +10,9 @@ spec:
           # add the urls you want to protect with oauth2/github betagouv organisation
           - id: httpbin-proxy
             host: httpbin.kube-dev.incubateur.net
+            target_host: httpbin.org
+          - id: bgv-proxy
+            host: bgv.kube-dev.incubateur.net
             target_host: beta.gouv.fr
   template:
     metadata:
