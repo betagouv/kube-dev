@@ -16,7 +16,7 @@ spec:
             target_port: 443
           - id: demo-proxy
             host: demo-proxy.kube-dev.incubateur.net
-            target_host: b932b288-0371-4948-a0c5-ceb8cf72f3c7.pub.instances.scw.cloud
+            target_host: 163.172.148.62 #b932b288-0371-4948-a0c5-ceb8cf72f3c7.pub.instances.scw.cloud
             target_port: 80
           # - id: metabase-proxy
           #   host: metabase.kube-dev.incubateur.net
