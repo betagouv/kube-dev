@@ -23,9 +23,10 @@ spec:
             patches:
               - target:
                   kind: Ingress
+                # https://github.com/kubernetes-sigs/kustomize/issues/1256#issuecomment-535007229
                 patch: |-
                   - op: replace
-                    path: /metadata/annotations/nginx.ingress.kubernetes.io\/upstream-vhost
+                    path: "/metadata/annotations/nginx.ingress.kubernetes.io~1upstream-vhost"
                     value: "{{target_host}}"
                   - op: replace
                     path: /metadata/labels/app
