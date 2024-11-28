@@ -13,12 +13,14 @@ spec:
           - id: httpbin-proxy
             host: httpbin.kube-dev.incubateur.net
             target_host: httpbin.org
-          - id: bgv-proxy
-            host: bgv.kube-dev.incubateur.net
-            target_host: beta.gouv.fr
-          - id: metabase-proxy
-            host: metabase.kube-dev.incubateur.net
-            target_host: metabase.incubateur.net
+          - id: demo-proxy
+            host: demo-proxy.kube-dev.incubateur.net
+            target_host: b932b288-0371-4948-a0c5-ceb8cf72f3c7.pub.instances.scw.cloud
+            target_port: 80
+          # - id: metabase-proxy
+          #   host: metabase.kube-dev.incubateur.net
+          #   target_host: metabase.incubateur.net
+  goTemplate: true
   template:
     metadata:
       name: "oauth2-{{id}}"
@@ -36,37 +38,43 @@ spec:
                 patch: |-
                   - op: replace
                     path: "/metadata/annotations/nginx.ingress.kubernetes.io~1upstream-vhost"
-                    value: "{{target_host}}"
+                    value: "{{.target_host}}"
+                  - op: replace
+                    path: "/metadata/annotations/nginx.ingress.kubernetes.io~1backend-protocol"
+                    value: "{{ ternary "HTTP" "HTTPS" (eq .target_port 80) }}"
                   - op: replace
                     path: /metadata/labels/app
-                    value: "oauth2-{{id}}"
+                    value: "oauth2-{{.id}}"
                   - op: replace
                     path: /metadata/name
-                    value: "oauth2-{{id}}"
+                    value: "oauth2-{{.id}}"
                   - op: replace
                     path: /spec/rules/0/host
-                    value: "{{host}}"
+                    value: "{{.host}}"
                   - op: replace
                     path: /spec/rules/0/http/paths/0/backend/service/name
-                    value: "oauth2-{{id}}"
+                    value: "oauth2-{{.id}}"
                   - op: replace
                     path: /spec/tls/0/hosts/0
-                    value: "{{host}}"
+                    value: "{{.host}}"
                   - op: replace
                     path: /spec/tls/0/secretName
-                    value: "oauth2-{{id}}-tls"
+                    value: "oauth2-{{.id}}-tls"
               - target:
                   kind: Service
                 patch: |-
                   - op: replace
                     path: /metadata/labels/app
-                    value: "oauth2-{{id}}"
+                    value: "oauth2-{{.id}}"
                   - op: replace
                     path: /metadata/name
-                    value: "oauth2-{{id}}"
+                    value: "oauth2-{{.id}}"
                   - op: replace
                     path: /spec/externalName
-                    value: "{{target_host}}"
+                    value: "{{.target_host}}"
+                  - op: replace
+                    path: /spec/ports/0/targetPort
+                    value: "{{ if .target_port }}{{ .target_port }}{{ else }}443{{ end }}"
       destination:
         server: "https://kubernetes.default.svc"
         namespace: "tooling"
