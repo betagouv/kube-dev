@@ -38,11 +38,17 @@ eck-stack:
     fullnameOverride: elk1-beats
     spec:
       type: filebeat
-      daemonSet: null
-      deployment:
-        replicas: 1
-        strategy:
-          type: Recreate
+      daemonSet:
+        podTemplate:
+          spec:
+            volumes:
+              - name: beat-data
+                emptyDir: {}
+      # daemonSet: null
+      # deployment:
+      #   replicas: 1
+      #   strategy:
+      #     type: Recreate
       elasticsearchRef:
         name: elk1-elasticsearch
       kibanaRef:
