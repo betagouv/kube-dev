@@ -35,6 +35,7 @@ eck-stack:
         #secretName: ''
   eck-beats:
     enabled: true
+    daemonSet:
     fullnameOverride: elk1-beats
     elasticsearchRef:
       name: elk1-elasticsearch

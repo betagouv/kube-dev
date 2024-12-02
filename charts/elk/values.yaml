@@ -119,7 +119,6 @@ eck-stack:
 
   eck-beats:
     enabled: false
-    daemonSet: {}
     elasticsearchRef:
       name: elasticsearch
     kibanaRef:
