@@ -29,8 +29,8 @@ eck-stack:
     fullnameOverride: elk1-logstash
     elasticsearchRefs:
       - name: "elk1-elasticsearch"
+        clusterName: "elk1-elasticsearch"
         #namespace: ''
-        #clusterName: ''
         #serviceName: ''
         #secretName: ''
   eck-beats:
