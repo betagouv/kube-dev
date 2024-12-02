@@ -72,6 +72,12 @@ eck-stack:
         cert-manager.io/cluster-issuer: letsencrypt-prod
         kubernetes.io/ingress.class: nginx
         nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+        nginx.ingress.kubernetes.io/auth-response-headers:
+          X-Auth-Request-Email,X-Auth-Request-Preferred-,X-Auth-Request-Access-Token,
+          X-Auth-Request-Roles,X-Auth-Request-User,X-Auth-Request-Groups,X-Forwarded-Groups,
+          Authorization
+        nginx.ingress.kubernetes.io/auth-signin: https://oauth.kube-dev.incubateur.net/oauth2/start?rd=https%3A%2F%2F$host$escaped_request_uri
+        nginx.ingress.kubernetes.io/auth-url: https://oauth.kube-dev.incubateur.net/oauth2/auth
       hosts:
         - host: "kibana.kube-dev.incubateur.net"
           path: "/"
@@ -101,3 +107,19 @@ eck-stack:
             - name: http
               port: 8200
               targetPort: 8200
+
+  eck-logstash:
+    enabled: true
+    elasticsearchRefs: []
+    #  - namespace: ''
+    #    name: ''
+    #    clusterName: ''
+    #    serviceName: ''
+    #    secretName: ''
+
+  eck-beats:
+    enabled: false
+    elasticsearchRef:
+      name: elasticsearch
+    kibanaRef:
+      name: kibana

@@ -27,5 +27,16 @@ eck-stack:
       name: elk1-kibana
   eck-logstash:
     fullnameOverride: elk1-logstash
+    elasticsearchRefs:
+      - name: "elk1-elasticsearch"
+        #namespace: ''
+        #clusterName: ''
+        #serviceName: ''
+        #secretName: ''
+  eck-beats:
+    enabled: true
+    fullnameOverride: elk1-beats
     elasticsearchRef:
       name: elk1-elasticsearch
+    kibanaRef:
+      name: elk1-kibana
