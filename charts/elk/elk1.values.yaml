@@ -37,6 +37,7 @@ eck-stack:
     enabled: true
     fullnameOverride: elk1-beats
     spec:
+      type: filebeat
       daemonSet: null
       deployment:
         replicas: 1
