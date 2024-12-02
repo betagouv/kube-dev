@@ -7,8 +7,9 @@ spec:
   generators:
     - list:
         elements:
-          - id: elk1
-            namespace: elk1
+          []
+          # - id: elk1
+          #   namespace: elk1
   template:
     metadata:
       name: "elk-{{id}}"
