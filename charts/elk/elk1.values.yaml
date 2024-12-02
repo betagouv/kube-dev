@@ -37,7 +37,11 @@ eck-stack:
     enabled: true
     fullnameOverride: elk1-beats
     spec:
-      daemonSet:
+      daemonSet: null
+      deployment:
+        replicas: 1
+        strategy:
+          type: Recreate
       elasticsearchRef:
         name: elk1-elasticsearch
       kibanaRef:
