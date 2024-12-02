@@ -119,7 +119,9 @@ eck-stack:
 
   eck-beats:
     enabled: false
-    elasticsearchRef:
-      name: elasticsearch
-    kibanaRef:
-      name: kibana
+    spec:
+      daemonSet:
+      elasticsearchRef:
+        name: elasticsearch
+      kibanaRef:
+        name: kibana
