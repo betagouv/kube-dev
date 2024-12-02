@@ -8,7 +8,7 @@ spec:
     - list:
         elements:
           - id: elk1
-            namespace: elk1
+            namespace: elk2
   template:
     metadata:
       name: "elk-{{id}}"
