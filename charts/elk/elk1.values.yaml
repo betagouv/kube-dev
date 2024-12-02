@@ -26,6 +26,6 @@ eck-stack:
     kibanaRef:
       name: elk1-kibana
   eck-logstash:
-    fullnameOverride: elk1-apm
+    fullnameOverride: elk1-logstash
     elasticsearchRef:
       name: elk1-elasticsearch
