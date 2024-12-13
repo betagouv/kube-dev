@@ -21,6 +21,7 @@ data:
             padding: 3rem 1rem;
           }
         </style>
+        <title>kube-dev</title>
       </head>
       <body>
         <div class="container">

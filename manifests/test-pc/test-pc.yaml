@@ -1,0 +1,119 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-pc
+  namespace: tooling
+  labels:
+    app: test-pc
+spec:
+  selector:
+    matchLabels:
+      app: test-pc
+  template:
+    metadata:
+      labels:
+        app: test-pc
+      annotations: {}
+    spec:
+      volumes:
+        - name: test-pc-index-file
+          configMap:
+            name: test-pc-index-file
+      containers:
+        - name: test-pc
+          image: nginx:1.27.3-alpine
+          env: []
+          envFrom: []
+          livenessProbe:
+            failureThreshold: 10
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          readinessProbe:
+            failureThreshold: 10
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          startupProbe:
+            failureThreshold: 10
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          ports:
+            - containerPort: 80
+              name: http
+              protocol: TCP
+          resources:
+            requests:
+              cpu: 0.1
+              memory: 128Mi
+            limits:
+              cpu: 0.2
+              memory: 128Mi
+          volumeMounts:
+            - mountPath: /usr/share/nginx/html/
+              name: test-pc-index-file
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-pc
+  namespace: tooling
+  labels:
+    app: test-pc
+spec:
+  ports:
+    - appProtocol: http
+      name: http
+      port: 80
+      protocol: TCP
+      targetPort: http
+  selector:
+    app: test-pc
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: test-pc
+  namespace: tooling
+  labels:
+    app: test-pc
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx
+    # nginx.ingress.kubernetes.io/auth-response-headers:
+    #   X-Auth-Request-Email,X-Auth-Request-Preferred-,X-Auth-Request-Access-Token,
+    #   X-Auth-Request-Roles,X-Auth-Request-User,X-Auth-Request-Groups,X-Forwarded-Groups,
+    #   Authorization
+    # nginx.ingress.kubernetes.io/auth-signin: https://oauth.kube-dev.incubateur.net/oauth2/start?rd=https%3A%2F%2F$host$escaped_request_uri
+    # nginx.ingress.kubernetes.io/auth-url: https://oauth.kube-dev.incubateur.net/oauth2/auth
+spec:
+  rules:
+    - host: test-pc.kube-dev.incubateur.net
+      http:
+        paths:
+          - backend:
+              service:
+                name: test-pc
+                port:
+                  number: 80
+            path: /
+            pathType: ImplementationSpecific
+  tls:
+    - hosts:
+        - test-pc.kube-dev.incubateur.net
+      secretName: test-pc-tls-secret
