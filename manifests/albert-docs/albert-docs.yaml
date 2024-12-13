@@ -18,6 +18,7 @@ spec:
       containers:
         - name: albert-docs
           image: ghcr.io/betagouv/albert-docs:latest
+          imagePullPolicy: Always
           env: []
           envFrom:
             - secretRef:
