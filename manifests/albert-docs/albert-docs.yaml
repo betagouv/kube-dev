@@ -44,7 +44,7 @@ spec:
           startupProbe:
             failureThreshold: 10
             httpGet:
-              path: /
+              path: /healthz
               port: http
               scheme: HTTP
             periodSeconds: 10
