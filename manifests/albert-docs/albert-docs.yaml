@@ -99,7 +99,7 @@ metadata:
     # nginx.ingress.kubernetes.io/auth-url: https://oauth-pc.kube-dev.incubateur.net/oauth2/auth
     nginx.ingress.kubernetes.io/auth-signin: https://oauth.kube-dev.incubateur.net/oauth2/start?rd=https%3A%2F%2F$host$escaped_request_uri
     nginx.ingress.kubernetes.io/auth-url: https://oauth.kube-dev.incubateur.net/oauth2/auth
-    nginx.ingress.kubernetes.io/client-max-body-size: "20m"
+    nginx.ingress.kubernetes.io/client-max-body-size: "20M"
 spec:
   rules:
     - host: albert-docs.kube-dev.incubateur.net

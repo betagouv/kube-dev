@@ -28,7 +28,7 @@ spec:
           annotations:
             kubernetes.io/ingress.class: nginx
             cert-manager.io/cluster-issuer: letsencrypt-prod
-            nginx.ingress.kubernetes.io/client-max-body-size: "20m"
+            nginx.ingress.kubernetes.io/client-max-body-size: "20M"
           tls:
             - hosts:
                 - oauth-pc.kube-dev.incubateur.net
