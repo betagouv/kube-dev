@@ -21,4 +21,4 @@ data:
   OAUTH2_PROXY_SCOPE: openid email profile organization
   OAUTH2_PROXY_REDIRECT_URL: "https://oauth-pc.kube-dev.incubateur.net/oauth2/callback"
   OAUTH2_PROXY_OIDC_ISSUER_URL: "https://fca.integ01.dev-agentconnect.fr/api/v2" # https://github.com/numerique-gouv/proconnect-documentation/blob/main/resources/valeur_ac_domain.md
-  OAUTH2_PROXY_SKIP_PROVIDER_BUTTON: "true"
+  OAUTH2_PROXY_SKIP_PROVIDER_BUTTON: "false"
