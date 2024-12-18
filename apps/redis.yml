@@ -23,7 +23,7 @@ spec:
             parameters:
               - name: "nameOverride"
                 value: "{{id}}"
-            values:
+            values: |
               auth:
                 enabled: false
             #valueFiles:
