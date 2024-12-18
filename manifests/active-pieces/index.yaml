@@ -25,6 +25,10 @@ spec:
               value: https://active-pieces.kube-dev.incubateur.net
             - name: AP_TELEMETRY_ENABLED
               value: "false"
+            - name: AP_LOG_LEVEL
+              value: "debug"
+            - name: AP_LOG_PRETTY
+              value: "true"
           envFrom:
             - secretRef:
                 name: active-pieces
