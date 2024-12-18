@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: redis
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - id: active-pieces
+            namespace: tooling
+  template:
+    metadata:
+      name: "redis-{{id}}"
+    spec:
+      project: tooling
+      sources:
+        - repoURL: oci://registry-1.docker.io/bitnamicharts
+          targetRevision: 20.6.0
+          chart: redis
+          # https://github.com/bitnami/charts/blob/main/bitnami/redis/values.yaml
+          helm:
+            parameters:
+              - name: "nameOverride"
+                value: "{{id}}"
+            #valueFiles:
+            #  - "$values/pgs/{{id}}.values.yaml"
+            ignoreMissingValueFiles: true
+        # - repoURL: https://github.com/betagouv/kube-dev
+        #   targetRevision: HEAD
+        #   path: pgs
+        #   ref: values
+      destination:
+        server: "https://kubernetes.default.svc"
+        namespace: "{{namespace}}"
+      syncPolicy:
+        automated:
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
