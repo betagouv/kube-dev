@@ -15,7 +15,7 @@ spec:
     spec:
       project: tooling
       sources:
-        - repoURL: https://charts.bitnami.com/bitnami
+        - repoURL: registry-1.docker.io/bitnamicharts
           targetRevision: 20.6.0
           chart: redis
           # https://github.com/bitnami/charts/blob/main/bitnami/redis/values.yaml
