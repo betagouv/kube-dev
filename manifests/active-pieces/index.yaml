@@ -122,3 +122,31 @@ spec:
     - hosts:
         - active-pieces.kube-dev.incubateur.net
       secretName: active-pieces-tls-secret
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: active-pieces-public
+  namespace: tooling
+  labels:
+    app: active-pieces
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+    - host: active-pieces.kube-dev.incubateur.net
+      http:
+        paths:
+          - backend:
+              service:
+                name: active-pieces
+                port:
+                  number: 80
+            path: /api/v1/webhooks
+            pathType: ImplementationSpecific
+  tls:
+    - hosts:
+        - active-pieces.kube-dev.incubateur.net
+      secretName: active-pieces-tls-secret
