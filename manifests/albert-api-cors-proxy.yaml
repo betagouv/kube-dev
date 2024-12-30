@@ -4,6 +4,7 @@ metadata:
   labels:
     app: albert-api
   name: albert-api
+  namespace: tooling
 spec:
   type: ExternalName
   externalName: https://albert.api.etalab.gouv.fr
