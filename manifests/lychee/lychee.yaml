@@ -1,0 +1,151 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lychee
+  namespace: lychee
+  labels:
+    app: lychee
+spec:
+  selector:
+    matchLabels:
+      app: lychee
+  template:
+    metadata:
+      labels:
+        app: lychee
+      annotations: {}
+    spec:
+      volumes:
+        - name: lychee-uploads
+          persistentVolumeClaim:
+            claimName: pvc-lychee
+      containers:
+        - name: lychee
+          image: lycheeorg/lychee:v6.0.1
+          env: []
+          envFrom:
+            - configMapRef:
+                name: lychee
+            - secretRef:
+                name: lychee
+          livenessProbe:
+            failureThreshold: 10
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          readinessProbe:
+            failureThreshold: 10
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          startupProbe:
+            failureThreshold: 10
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          ports:
+            - containerPort: 80
+              name: http
+              protocol: TCP
+          resources:
+            requests:
+              cpu: "0.2"
+              memory: 256Mi
+            limits:
+              cpu: 1
+              memory: 1024Mi
+          volumeMounts:
+            - mountPath: /uploads
+              name: lychee-uploads
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lychee
+  namespace: lychee
+  labels:
+    app: lychee
+spec:
+  ports:
+    - appProtocol: http
+      name: http
+      port: 80
+      protocol: TCP
+      targetPort: http
+  selector:
+    app: lychee
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: lychee
+  namespace: lychee
+  labels:
+    app: lychee
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/proxy-body-size: 100m
+spec:
+  rules:
+    - host: lychee.kube-dev.incubateur.net
+      http:
+        paths:
+          - backend:
+              service:
+                name: lychee
+                port:
+                  number: 80
+            path: /
+            pathType: ImplementationSpecific
+  tls:
+    - hosts:
+        - lychee.kube-dev.incubateur.net
+      secretName: lychee-tls-secret
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-lychee
+  namespace: lychee
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+  storageClassName: csi-cinder-high-speed
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: lychee
+  namespace: lychee
+data:
+  PHP_TZ: Europe/Paris
+  TIMEZONE: Europe/Paris
+  APP_URL: https://lychee.kube-dev.incubateur.net
+  DB_LOG_SQL: "true"
+  APP_FORCE_HTTPS: "true"
+  MAIL_DRIVER: smtp
+  MAIL_HOST: smtp-relay.brevo.com
+  MAIL_PORT: "587"
+  MAIL_USERNAME: communaute@beta.gouv.fr
+  MAIL_FROM_NAME: beta.gouv.fr
+  MAIL_FROM_ADDRESS: communaute@beta.gouv.fr
