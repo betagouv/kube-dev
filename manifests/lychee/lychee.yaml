@@ -21,7 +21,7 @@ spec:
             claimName: pvc-lychee
       containers:
         - name: lychee
-          image: lycheeorg/lychee:v6.0.1
+          image: lycheeorg/lychee:v6.2.0
           env: []
           envFrom:
             - configMapRef:
