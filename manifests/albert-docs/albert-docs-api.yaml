@@ -1,33 +1,32 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: albert-docs
+  name: albert-docs-api
   namespace: albert-docs
   labels:
-    app: albert-docs
+    app: albert-docs-api
 spec:
   selector:
     matchLabels:
-      app: albert-docs
+      app: albert-docs-api
   template:
     metadata:
       labels:
-        app: albert-docs
+        app: albert-docs-api
       annotations: {}
     spec:
       containers:
-        - name: albert-docs
-          image: ghcr.io/betagouv/albert-docs:latest
+        - name: albert-docs-api
+          image: ghcr.io/betagouv/albert-docs/api:latest
           imagePullPolicy: Always
           env: []
           envFrom:
-            []
-            # - secretRef:
-            #     name: "albert-docs"
+            - secretRef:
+                name: "albert-docs"
           livenessProbe:
             failureThreshold: 10
             httpGet:
-              path: /healthz.html
+              path: /healthz
               port: http
               scheme: HTTP
             periodSeconds: 10
@@ -36,7 +35,7 @@ spec:
           readinessProbe:
             failureThreshold: 10
             httpGet:
-              path: /healthz.html
+              path: /healthz
               port: http
               scheme: HTTP
             periodSeconds: 10
@@ -45,7 +44,7 @@ spec:
           startupProbe:
             failureThreshold: 10
             httpGet:
-              path: /healthz.html
+              path: /healthz
               port: http
               scheme: HTTP
             periodSeconds: 10
@@ -67,10 +66,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: albert-docs
+  name: albert-docs-api
   namespace: albert-docs
   labels:
-    app: albert-docs
+    app: albert-docs-api
 spec:
   ports:
     - appProtocol: http
@@ -79,16 +78,16 @@ spec:
       protocol: TCP
       targetPort: http
   selector:
-    app: albert-docs
+    app: albert-docs-api
 
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: albert-docs
+  name: albert-docs-api
   namespace: albert-docs
   labels:
-    app: albert-docs
+    app: albert-docs-api
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     kubernetes.io/ingress.class: nginx
@@ -100,21 +99,21 @@ metadata:
     #nginx.ingress.kubernetes.io/auth-url: https://oauth-pc.kube-dev.incubateur.net/oauth2/auth
     #nginx.ingress.kubernetes.io/auth-signin: https://oauth.kube-dev.incubateur.net/oauth2/start?rd=https%3A%2F%2F$host$escaped_request_uri
     #nginx.ingress.kubernetes.io/auth-url: https://oauth.kube-dev.incubateur.net/oauth2/auth
-    nginx.ingress.kubernetes.io/client-max-body-size: "20M"
-    nginx.ingress.kubernetes.io/proxy-body-size: "20M"
+    #nginx.ingress.kubernetes.io/client-max-body-size: "20M"
+    #nginx.ingress.kubernetes.io/proxy-body-size: "20M"
 spec:
   rules:
-    - host: albert-docs.kube-dev.incubateur.net
+    - host: albert-docs-api.kube-dev.incubateur.net
       http:
         paths:
           - backend:
               service:
-                name: albert-docs
+                name: albert-docs-api
                 port:
                   number: 80
             path: /
             pathType: ImplementationSpecific
   tls:
     - hosts:
-        - albert-docs.kube-dev.incubateur.net
-      secretName: albert-docs-tls-secret
+        - albert-docs-api.kube-dev.incubateur.net
+      secretName: albert-docs-api-tls-secret
