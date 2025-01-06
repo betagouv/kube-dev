@@ -102,6 +102,35 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-body-size: 100m
 spec:
   rules:
+    - host: lychee.kube-dev.incubateur.net
+      http:
+        paths:
+          - backend:
+              service:
+                name: lychee
+                port:
+                  number: 80
+            path: /
+            pathType: ImplementationSpecific
+  tls:
+    - hosts:
+        - lychee.kube-dev.incubateur.net
+      secretName: lychee-tls-secret
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: lychee2
+  namespace: lychee
+  labels:
+    app: lychee
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/proxy-body-size: 100m
+spec:
+  rules:
     - host: images.incubateur.net
       http:
         paths:
@@ -115,7 +144,7 @@ spec:
   tls:
     - hosts:
         - images.incubateur.net
-      secretName: lychee-tls-secret
+      secretName: lychee2-tls-secret
 
 ---
 apiVersion: v1
