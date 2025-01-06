@@ -102,7 +102,7 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-body-size: 100m
 spec:
   rules:
-    - host: lychee.kube-dev.incubateur.net
+    - host: images.incubateur.net
       http:
         paths:
           - backend:
@@ -114,7 +114,7 @@ spec:
             pathType: ImplementationSpecific
   tls:
     - hosts:
-        - lychee.kube-dev.incubateur.net
+        - images.incubateur.net
       secretName: lychee-tls-secret
 
 ---
@@ -140,7 +140,7 @@ metadata:
 data:
   PHP_TZ: Europe/Paris
   TIMEZONE: Europe/Paris
-  APP_URL: https://lychee.kube-dev.incubateur.net
+  APP_URL: https://images.incubateur.net
   DB_LOG_SQL: "true"
   APP_FORCE_HTTPS: "true"
   MAIL_DRIVER: smtp
