@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: betagouv-cors
+  name: betagouv-cors
+  namespace: tooling
+spec:
+  type: ExternalName
+  externalName: beta.gouv.fr
+  ports:
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: 443
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: betagouv-cors
+  namespace: tooling
+  labels:
+    app: betagouv-cors
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+    nginx.ingress.kubernetes.io/upstream-vhost: beta.gouv.fr
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+    nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS, DELETE"
+    nginx.ingress.kubernetes.io/cors-allow-headers: "Authorization,DNT,X-CustomHeader,X-LANG,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,X-Api-Key,X-Device-Id,Access-Control-Allow-Origin"
+    nginx.ingress.kubernetes.io/client-max-body-size: 20M
+    nginx.ingress.kubernetes.io/proxy-body-size: 20M
+    # nginx.ingress.kubernetes.io/configuration-snippet: |
+    #   proxy_set_header Host albert.api.etalab.gouv.fr;
+spec:
+  rules:
+    - host: betagouv.kube-dev.incubateur.net
+      http:
+        paths:
+          - backend:
+              service:
+                name: betagouv-cors
+                port:
+                  name: https
+            path: /
+            pathType: ImplementationSpecific
+  tls:
+    - hosts:
+        - betagouv.kube-dev.incubateur.net
+      secretName: betagouv-api-tls-secret
