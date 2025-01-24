@@ -38,18 +38,18 @@ spec:
               path: /
               port: http
               scheme: HTTP
-            periodSeconds: 10
+            periodSeconds: 30
             successThreshold: 1
-            timeoutSeconds: 1
+            timeoutSeconds: 3
           readinessProbe:
-            failureThreshold: 10
+            failureThreshold: 30
             httpGet:
               path: /
               port: http
               scheme: HTTP
             periodSeconds: 10
             successThreshold: 1
-            timeoutSeconds: 1
+            timeoutSeconds: 3
           startupProbe:
             failureThreshold: 10
             httpGet:
@@ -65,11 +65,11 @@ spec:
               protocol: TCP
           resources:
             requests:
-              cpu: "0.1"
-              memory: 128Mi
+              cpu: "0.3"
+              memory: 256Mi
             limits:
-              cpu: "0.5"
-              memory: 1Gi
+              cpu: "2"
+              memory: 2Gi
 
 ---
 apiVersion: v1
