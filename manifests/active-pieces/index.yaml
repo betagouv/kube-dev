@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: active-pieces
-          image: ghcr.io/activepieces/activepieces:0.39.2
+          image: ghcr.io/activepieces/activepieces:0.39.7
           env:
             - name: AP_ENVIRONMENT
               value: prod
