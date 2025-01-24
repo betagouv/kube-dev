@@ -2,6 +2,7 @@
 
 image:
   tag: v0.52.7.2
+
 ingress:
   enabled: true
   annotations:
@@ -17,3 +18,11 @@ ingress:
     # Secrets must be manually created in the namespace.
     - secretName: metabase-tls
       hosts: []
+
+resources:
+  limits:
+    cpu: 2
+    memory: 1Gi
+  requests:
+    cpu: 100m
+    memory: 256Mi
