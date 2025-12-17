@@ -9,7 +9,7 @@ data:
   OAUTH2_PROXY_REDIRECT_URL: "https://oauth.kube-dev.incubateur.net/oauth2/callback"
   OAUTH2_PROXY_SCOPE: "read:org user:email"
   OAUTH2_PROXY_PROVIDER: github
-  OAUTH2_PROXY_GITHUB_TEAM: betagouv
+  OAUTH2_PROXY_GITHUB_ORG: betagouv
   OAUTH2_PROXY_BANNER: kube-dev private access
   OAUTH2_PROXY_FOOTER: kube-dev auth
   OAUTH2_PROXY_EMAIL_DOMAINS: "*"
