@@ -51,7 +51,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: oauth-demo-scalingo-service
+            name: oauth-demo-scalingo
             port:
               number: 443
 
@@ -61,8 +61,8 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: oauth-demo-scalingo-service
-  name: oauth-demo-scalingo-service
+    app: oauth-demo-scalingo
+  name: oauth-demo-scalingo
   namespace: tooling
 spec:
   type: ExternalName
