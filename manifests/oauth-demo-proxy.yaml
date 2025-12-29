@@ -7,7 +7,7 @@ metadata:
   namespace: tooling
 spec:
   type: ExternalName
-  externalName: test-node-oauth2.osc-fr1.scalingo.io
+  externalName: demo-oauth-app.osc-fr1.scalingo.io
   ports:
     - name: https
       port: 443
@@ -27,7 +27,7 @@ metadata:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/backend-protocol: HTTPS
-    nginx.ingress.kubernetes.io/upstream-vhost: test-node-oauth2.osc-fr1.scalingo.io
+    nginx.ingress.kubernetes.io/upstream-vhost: demo-oauth-app.osc-fr1.scalingo.io
     #nginx.ingress.kubernetes.io/enable-cors: "true"
     #nginx.ingress.kubernetes.io/cors-allow-origin: "*"
     #nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS, DELETE"
@@ -38,7 +38,7 @@ metadata:
     #   proxy_set_header Host albert.api.etalab.gouv.fr;
 spec:
   rules:
-    - host: oauth-demo.kube-dev.incubateur.net
+    - host: demo-oauth-app.kube-dev.incubateur.net
       http:
         paths:
           - backend:
@@ -50,6 +50,6 @@ spec:
             pathType: ImplementationSpecific
   tls:
     - hosts:
-        - oauth-demo.kube-dev.incubateur.net
-      secretName: oauth-demo-scalingo
+        - demo-oauth-app.kube-dev.incubateur.net
+      secretName: demo-oauth-app-proxy
       
