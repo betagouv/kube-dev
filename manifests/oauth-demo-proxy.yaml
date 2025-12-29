@@ -60,6 +60,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  labels:
+    app: oauth-demo-scalingo-service
   name: oauth-demo-scalingo-service
   namespace: tooling
 spec:
