@@ -6,6 +6,7 @@ metadata:
   annotations:
     # Use nginx ingress controller
     kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
     
     # Preserve original host header
     nginx.ingress.kubernetes.io/upstream-vhost: "test-node-oauth2.osc-fr1.scalingo.io"
