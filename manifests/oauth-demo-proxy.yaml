@@ -8,35 +8,35 @@ metadata:
     kubernetes.io/ingress.class: "nginx"
     cert-manager.io/cluster-issuer: letsencrypt-prod
     
-    # Preserve original host header
-    nginx.ingress.kubernetes.io/upstream-vhost: "test-node-oauth2.osc-fr1.scalingo.io"
-    
     # Forward original client IP and metadata
     nginx.ingress.kubernetes.io/enable-cors: "false"
     nginx.ingress.kubernetes.io/proxy-buffer-size: "8k"
     nginx.ingress.kubernetes.io/proxy-buffers-number: "4"
     
-    # Pass through headers transparently
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_set_header Host test-node-oauth2.osc-fr1.scalingo.io;
-      proxy_set_header X-Real-IP $remote_addr;
-      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-      proxy_set_header X-Forwarded-Host test-node-oauth2.osc-fr1.scalingo.io;
-      proxy_set_header X-Forwarded-Port $server_port;
-      proxy_set_header X-Forwarded-Proto $scheme;
-      proxy_set_header X-Original-URI $request_uri;
-      proxy_set_header X-Scheme $scheme;
-      
-    # Backend protocol (use https if target requires SSL)
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-    
-    # SSL settings for backend communication
-    nginx.ingress.kubernetes.io/proxy-ssl-verify: "false"
-    nginx.ingress.kubernetes.io/proxy-ssl-protocols: "TLSv1.2 TLSv1.3"
-    
-    # Preserve query strings and URI
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
-    nginx.ingress.kubernetes.io/use-regex: "true"
+    # Proxy directly to external URL
+    nginx.ingress.kubernetes.io/server-snippet: |
+      location / {
+        proxy_pass https://test-node-oauth2.osc-fr1.scalingo.io;
+        proxy_ssl_verify off;
+        proxy_ssl_server_name on;
+        proxy_ssl_protocols TLSv1.2 TLSv1.3;
+        
+        # Preserve original client IP and headers
+        proxy_set_header Host test-node-oauth2.osc-fr1.scalingo.io;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Host $http_host;
+        proxy_set_header X-Forwarded-Port $server_port;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Original-URI $request_uri;
+        proxy_set_header X-Scheme $scheme;
+        
+        # Pass through all other headers
+        proxy_pass_request_headers on;
+        
+        # Handle redirects properly
+        proxy_redirect off;
+      }
     
 spec:
   tls:
@@ -48,36 +48,40 @@ spec:
   - host: oauth-demo.kube-dev.incubateur.net
     http:
       paths:
-      - path: /(.*)
+      - path: /
         pathType: Prefix
         backend:
           service:
-            name: oauth-demo-scalingo
+            name: oauth-demo-service
             port:
-              number: 443
+              number: 80
 
 ---
-# ExternalName service to proxy to external domain
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app: oauth-demo-scalingo
-  name: oauth-demo-scalingo
+  name: oauth-demo-service
   namespace: tooling
 spec:
-  type: ExternalName
-  externalName: test-node-oauth2.osc-fr1.scalingo.io
   ports:
   - port: 443
     targetPort: 443
     protocol: TCP
+    name: https
 
 ---
-
 apiVersion: v1
 kind: Endpoints
 metadata:
-  name: oauth-demo-scalingo
+  name: oauth-demo-service
   namespace: tooling
-subsets: []
+subsets:
+- addresses:
+  - ip: 5.104.101.30
+  - ip: 109.232.236.90
+  - ip: 109.232.233.130
+  - ip: 148.253.75.120
+  ports:
+  - port: 443
+    name: https
+    protocol: TCP
