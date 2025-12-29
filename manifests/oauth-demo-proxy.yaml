@@ -54,7 +54,7 @@ spec:
           service:
             name: oauth-demo-service
             port:
-              number: 80
+              number: 443
 
 ---
 apiVersion: v1
