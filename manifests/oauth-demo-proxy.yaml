@@ -71,3 +71,11 @@ spec:
   - port: 443
     targetPort: 443
     protocol: TCP
+
+---
+
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: oauth-demo-scalingo
+subsets: []
