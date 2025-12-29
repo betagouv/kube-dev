@@ -1,0 +1,69 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: oauth-demo-proxy
+  annotations:
+    # Use nginx ingress controller
+    kubernetes.io/ingress.class: "nginx"
+    
+    # Preserve original host header
+    nginx.ingress.kubernetes.io/upstream-vhost: "test-node-oauth2.osc-fr1.scalingo.io"
+    
+    # Forward original client IP and metadata
+    nginx.ingress.kubernetes.io/enable-cors: "false"
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "8k"
+    nginx.ingress.kubernetes.io/proxy-buffers-number: "4"
+    
+    # Pass through headers transparently
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      proxy_set_header Host app.some.other.domain;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Host $host;
+      proxy_set_header X-Forwarded-Port $server_port;
+      proxy_set_header X-Forwarded-Proto $scheme;
+      proxy_set_header X-Original-URI $request_uri;
+      proxy_set_header X-Scheme $scheme;
+      
+    # Backend protocol (use https if target requires SSL)
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    
+    # SSL settings for backend communication
+    nginx.ingress.kubernetes.io/proxy-ssl-verify: "false"
+    nginx.ingress.kubernetes.io/proxy-ssl-protocols: "TLSv1.2 TLSv1.3"
+    
+    # Preserve query strings and URI
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    
+spec:
+  tls:
+  - hosts:
+    - oauth-demo.kube-dev.incubateur.net
+    secretName: oauth-demo-tls  # Your TLS certificate secret
+  
+  rules:
+  - host: oauth-demo.kube-dev.incubateur.net
+    http:
+      paths:
+      - path: /(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: oauth-demo-scalingo-service
+            port:
+              number: 443
+
+---
+# ExternalName service to proxy to external domain
+apiVersion: v1
+kind: Service
+metadata:
+  name: oauth-demo-scalingo-service
+spec:
+  type: ExternalName
+  externalName: test-node-oauth2.osc-fr1.scalingo.io
+  ports:
+  - port: 443
+    targetPort: 443
+    protocol: TCP
