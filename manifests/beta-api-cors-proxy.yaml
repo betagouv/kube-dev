@@ -46,7 +46,7 @@ spec:
                 name: betagouv-cors
                 port:
                   name: https
-            path: /
+            path: /api
             pathType: ImplementationSpecific
   tls:
     - hosts:
