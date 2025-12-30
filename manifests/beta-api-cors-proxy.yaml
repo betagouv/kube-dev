@@ -35,7 +35,7 @@ metadata:
     nginx.ingress.kubernetes.io/client-max-body-size: 20M
     nginx.ingress.kubernetes.io/proxy-body-size: 20M
     nginx.ingress.kubernetes.io/configuration-snippet: |
-       proxy_set_header X-Robots-Tag "noindex";
+       more_set_headers "X-Robots-Tag: noindex";
 spec:
   rules:
     - host: betagouv.kube-dev.incubateur.net
