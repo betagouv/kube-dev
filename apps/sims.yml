@@ -7,7 +7,7 @@ spec:
   generators:
     - list:
         elements:
-          - id: sim-test1
+          - name: sim-test1
             namespace: sims
 
   template:
