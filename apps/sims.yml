@@ -36,9 +36,9 @@ spec:
             maxDuration: 3m
 
       sources:
-        - repoURL: https://charts.simstudio.ai
-          targetRevision: 1.0.0
-          chart: simstudioai/simstudio
+        - repoURL: https://github.com/betagouv/kube-dev
+          targetRevision: main
+          path: charts/sim
           # https://github.com/simstudioai/sim/tree/main/helm/sim
           helm:
             parameters:
