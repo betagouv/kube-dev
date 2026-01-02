@@ -48,6 +48,8 @@ spec:
                 value: "{{name}}.kube-dev.incubateur.net"
               - name: "ingress.realtime.host"
                 value: "{{name}}-rt.kube-dev.incubateur.net"
+              - name: "app.env.NEXT_PUBLIC_APP_URL"
+                value: "https://{{name}}.kube-dev.incubateur.net"
             valueFiles:
               - "$values/sims/sim.values.yaml"
               - "$values/sims/{{name}}.values.yaml"
