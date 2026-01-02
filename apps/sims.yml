@@ -46,8 +46,6 @@ spec:
                 value: "{{name}}"
               - name: "ingress.hosts[0]"
                 value: "{{name}}.kube-dev.incubateur.net"
-              - name: "ingress.tls.enabled"
-                value: "true"
             valueFiles:
               - "$values/sims/sim.values.yaml"
               - "$values/sims/{{name}}.values.yaml"

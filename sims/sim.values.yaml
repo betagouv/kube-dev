@@ -18,26 +18,31 @@ ingress:
       Authorization
     nginx.ingress.kubernetes.io/auth-signin: https://oauth.kube-dev.incubateur.net/oauth2/start?rd=https%3A%2F%2F$host$escaped_request_uri
     nginx.ingress.kubernetes.io/auth-url: https://oauth.kube-dev.incubateur.net/oauth2/auth
-resources:
-  limits:
-    cpu: 2
-    memory: 2Gi
-  requests:
-    cpu: 200m
-    memory: 256Mi
+  tls:
+    enabled: true
 
-extraEnvVars:
-  NEXT_PUBLIC_APP_URL: "http://localhost:3000"
-  BETTER_AUTH_URL: "http://localhost:3000"
-  NEXT_PUBLIC_SOCKET_URL: "http://localhost:3002"
+app:
+  resources:
+    limits:
+      cpu: 2
+      memory: 2Gi
+    requests:
+      cpu: 200m
+      memory: 256Mi
+  env:
+    BETTER_AUTH_SECRET: "dev-32-char-auth-secret-not-secu"
+# extraEnvVars:
+#   NEXT_PUBLIC_APP_URL: "http://localhost:3000"
+#   BETTER_AUTH_URL: "http://localhost:3000"
+#   NEXT_PUBLIC_SOCKET_URL: "http://localhost:3002"
 
-  # Example secrets for development (replace with secure values for production)
-  # For production, generate using: openssl rand -hex 32
-  BETTER_AUTH_SECRET: "dev-32-char-auth-secret-not-secu"
-  ENCRYPTION_KEY: "dev-32-char-auth-secret-not-secu"
-  INTERNAL_API_SECRET: "dev-32-char-auth-secret-not-secu"
-  CRON_SECRET: "dev-32-char-auth-secret-not-secu"
+#   # Example secrets for development (replace with secure values for production)
+#   # For production, generate using: openssl rand -hex 32
+#   BETTER_AUTH_SECRET: "dev-32-char-auth-secret-not-secu"
+#   ENCRYPTION_KEY: "dev-32-char-auth-secret-not-secu"
+#   INTERNAL_API_SECRET: "dev-32-char-auth-secret-not-secu"
+#   CRON_SECRET: "dev-32-char-auth-secret-not-secu"
 
-  # Optional: API Key Encryption (leave empty for dev, encrypts API keys at rest)
-  # For production, generate 64-char hex using: openssl rand -hex 32
-  API_ENCRYPTION_KEY: "" # Optional - if not set, API keys stored in plain text
+#   # Optional: API Key Encryption (leave empty for dev, encrypts API keys at rest)
+#   # For production, generate 64-char hex using: openssl rand -hex 32
+#   API_ENCRYPTION_KEY: "" # Optional - if not set, API keys stored in plain text
