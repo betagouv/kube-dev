@@ -3,6 +3,10 @@
 image:
   tag: latest
 
+postgresql:
+  auth:
+    password: some-fake-password
+
 ingress:
   enabled: true
   annotations:
