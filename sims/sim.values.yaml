@@ -7,6 +7,9 @@ postgresql:
   auth:
     password: some-fake-password
 
+migrations:
+  enabled: true
+
 ingress:
   enabled: true
   annotations:

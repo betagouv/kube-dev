@@ -44,8 +44,10 @@ spec:
             parameters:
               - name: "nameOverride"
                 value: "{{name}}"
-              - name: "ingress.hosts[0]"
+              - name: "ingress.app.host"
                 value: "{{name}}.kube-dev.incubateur.net"
+              - name: "ingress.realtime.host"
+                value: "{{name}}-rt.kube-dev.incubateur.net"
             valueFiles:
               - "$values/sims/sim.values.yaml"
               - "$values/sims/{{name}}.values.yaml"
