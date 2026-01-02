@@ -1,0 +1,89 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: sims
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - id: sim-test1
+            namespace: sims
+
+  template:
+    metadata:
+      name: "{{name}}"
+      annotations:
+        argocd.argoproj.io/manifest-generate-paths: .
+        #notifications.argoproj.io/subscribe.mattermost: moojipgstjgsixs6mgycxpe5ua
+    spec:
+      project: tooling
+      syncPolicy:
+        managedNamespaceMetadata:
+          labels:
+            application: sims
+        syncOptions:
+          - CreateNamespace=true
+        automated:
+          prune: false # Specifies if resources should be pruned during auto-syncing ( false by default ).
+          selfHeal: false # Specifies if partial app sync should be executed when resources are changed only in target Kubernetes cluster and no git change detected ( false by default ).
+          allowEmpty: false # Allows deleting all application resources during automatic syncing ( false by default ).
+        retry:
+          limit: 5
+          backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 3m
+
+      sources:
+        - repoURL: https://charts.simstudio.ai
+          targetRevision: 1.0.0
+          chart: sim
+          # https://github.com/simstudioai/sim/tree/main/helm/sim
+          helm:
+            parameters:
+              - name: "nameOverride"
+                value: "{{name}}"
+              - name: "ingress.hosts[0]"
+                value: "{{name}}.kube-dev.incubateur.net"
+              - name: "ingress.tls[0].hosts[0]"
+                value: "{{name}}.kube-dev.incubateur.net"
+              - name: "extraEnv[2].value"
+                value: "{{name}}.kube-dev.incubateur.net"
+            valueFiles:
+              - "$values/sims/sim.values.yaml"
+              - "$values/sims/{{name}}.values.yaml"
+            ignoreMissingValueFiles: true
+        # - repoURL: https://github.com/betagouv/kube-dev
+        #   targetRevision: HEAD
+        #   path: metabases
+        #   ref: values
+
+        # path: metabases
+        # repoURL: https://github.com/betagouv/kube-dev
+        # targetRevision: HEAD
+        # helm:
+        #     - name: "global.namespace"
+        #       value: "{{namespace}}"
+        #     - name: "metabase.host"
+        #       value: "{{host}}"
+        #     - name: "metabase.component"
+        #       value: "{{name}}"
+        #     - name: "metabase.image.tag"
+        #       value: "v0.47.7"
+        #     - name: "metabase.env[0].valueFrom.secretKeyRef.name"
+        #       value: "cnpg-{{name}}-app"
+        #     - name: "cnpg-cluster.fullnameOverride"
+        #       value: "cnpg-{{name}}"
+        #     - name: "metabase.env[1].value"
+        #       value: "postgres://cnpg-{{name}}-r:5432/app?user=app&password=$(PG_PASSWORD)"
+        #     - name: cnpg-cluster.backup.barmanObjectStore.destinationPath
+        #       value: "s3://argocd-sre-cnpg-clusters/backups_metabase/{{cluster}}"
+        #   ignoreMissingValueFiles: true
+        #   valueFiles:
+        #     - values.yaml
+        #     # optional
+        #     - "clusters/{{cluster}}/{{name}}/values.yaml"
+      destination:
+        server: "https://kubernetes.default.svc"
+        namespace: "{{namespace}}"

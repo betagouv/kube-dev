@@ -1,0 +1,43 @@
+# https://github.com/simstudioai/sim/blob/main/helm/sim/examples/values-development.yaml
+
+image:
+  tag: latest
+
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/auth-response-headers:
+      X-Auth-Request-Email,X-Auth-Request-Preferred-,X-Auth-Request-Access-Token,
+      X-Auth-Request-Roles,X-Auth-Request-User,X-Auth-Request-Groups,X-Forwarded-Groups,
+      Authorization
+    nginx.ingress.kubernetes.io/auth-signin: https://oauth.kube-dev.incubateur.net/oauth2/start?rd=https%3A%2F%2F$host$escaped_request_uri
+    nginx.ingress.kubernetes.io/auth-url: https://oauth.kube-dev.incubateur.net/oauth2/auth
+  tls:
+    # Secrets must be manually created in the namespace.
+    - secretName: sims-tls
+      hosts: []
+resources:
+  limits:
+    cpu: 2
+    memory: 2Gi
+  requests:
+    cpu: 200m
+    memory: 256Mi
+
+env:
+  NEXT_PUBLIC_APP_URL: "http://localhost:3000"
+  BETTER_AUTH_URL: "http://localhost:3000"
+  NEXT_PUBLIC_SOCKET_URL: "http://localhost:3002"
+
+  # Example secrets for development (replace with secure values for production)
+  # For production, generate using: openssl rand -hex 32
+  BETTER_AUTH_SECRET: "dev-32-char-auth-secret-not-secure-dev"
+  ENCRYPTION_KEY: "dev-32-char-encryption-key-not-secure"
+  INTERNAL_API_SECRET: "dev-32-char-internal-secret-not-secure"
+  CRON_SECRET: "dev-32-char-cron-secret-not-for-prod"
+
+  # Optional: API Key Encryption (leave empty for dev, encrypts API keys at rest)
+  # For production, generate 64-char hex using: openssl rand -hex 32
+  API_ENCRYPTION_KEY: "" # Optional - if not set, API keys stored in plain text
