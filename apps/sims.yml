@@ -54,10 +54,10 @@ spec:
               - "$values/sims/sim.values.yaml"
               - "$values/sims/{{name}}.values.yaml"
             ignoreMissingValueFiles: true
-        # - repoURL: https://github.com/betagouv/kube-dev
-        #   targetRevision: HEAD
-        #   path: metabases
-        #   ref: values
+        - repoURL: https://github.com/betagouv/kube-dev
+          targetRevision: HEAD
+          path: sims
+          ref: values
 
         # path: metabases
         # repoURL: https://github.com/betagouv/kube-dev
