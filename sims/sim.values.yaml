@@ -22,7 +22,7 @@ resources:
     cpu: 200m
     memory: 256Mi
 
-env:
+extraEnvVars:
   NEXT_PUBLIC_APP_URL: "http://localhost:3000"
   BETTER_AUTH_URL: "http://localhost:3000"
   NEXT_PUBLIC_SOCKET_URL: "http://localhost:3002"
