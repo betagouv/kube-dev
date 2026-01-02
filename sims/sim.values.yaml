@@ -24,11 +24,16 @@ ingress:
 app:
   resources:
     limits:
-      cpu: 2
+      cpu: "2"
       memory: 2Gi
     requests:
       cpu: 200m
       memory: 256Mi
+  env:
+    BETTER_AUTH_SECRET: "dev-32-char-auth-secret-not-secu"
+    ENCRYPTION_KEY: "dev-32-char-auth-secret-not-secu"
+
+realtime:
   env:
     BETTER_AUTH_SECRET: "dev-32-char-auth-secret-not-secu"
 # extraEnvVars:
