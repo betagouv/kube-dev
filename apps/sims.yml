@@ -38,7 +38,7 @@ spec:
       sources:
         - repoURL: https://charts.simstudio.ai
           targetRevision: 1.0.0
-          chart: sim
+          chart: simstudioai/simstudio
           # https://github.com/simstudioai/sim/tree/main/helm/sim
           helm:
             parameters:
