@@ -54,6 +54,12 @@ spec:
                 value: "https://{{name}}-rt.kube-dev.incubateur.net"
               - name: "app.env.BETTER_AUTH_URL"
                 value: "https://{{name}}.kube-dev.incubateur.net"
+              - name: "realtime.env.NEXT_PUBLIC_APP_URL"
+                value: "https://{{name}}.kube-dev.incubateur.net"
+              - name: "realtime.env.NEXT_PUBLIC_SOCKET_URL"
+                value: "https://{{name}}-rt.kube-dev.incubateur.net"
+              - name: "realtime.env.BETTER_AUTH_URL"
+                value: "https://{{name}}.kube-dev.incubateur.net"
             valueFiles:
               - "$values/sims/sim.values.yaml"
               - "$values/sims/{{name}}.values.yaml"
