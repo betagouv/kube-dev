@@ -1,0 +1,143 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webcheck
+  namespace: webcheck
+  labels:
+    app: webcheck
+spec:
+  selector:
+    matchLabels:
+      app: webcheck
+  template:
+    metadata:
+      labels:
+        app: webcheck
+      annotations: {}
+    spec:
+      # volumes:
+      #   - name: webcheck-uploads
+      #     persistentVolumeClaim:
+      #       claimName: pvc-webcheck
+      containers:
+        - name: webcheck
+          image: lissy93/web-check:latest
+          env: []
+          envFrom:
+            - configMapRef:
+                name: webcheck
+            # - secretRef:
+            #     name: webcheck
+          livenessProbe:
+            failureThreshold: 10
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          readinessProbe:
+            failureThreshold: 10
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          startupProbe:
+            failureThreshold: 10
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          ports:
+            - containerPort: 3000
+              name: http
+              protocol: TCP
+          resources:
+            requests:
+              cpu: "0.2"
+              memory: 256Mi
+            limits:
+              cpu: 1
+              memory: 1024Mi
+          # volumeMounts:
+          #   - mountPath: /uploads
+          #     name: webcheck-uploads
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webcheck
+  namespace: webcheck
+  labels:
+    app: webcheck
+spec:
+  ports:
+    - appProtocol: http
+      name: http
+      port: 80
+      protocol: TCP
+      targetPort: http
+  selector:
+    app: webcheck
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: webcheck2
+  namespace: webcheck
+  labels:
+    app: webcheck
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/auth-signin: https://oauth.kube-dev.incubateur.net/oauth2/start?rd=https%3A%2F%2F$host$escaped_request_uri
+    nginx.ingress.kubernetes.io/auth-url: https://oauth.kube-dev.incubateur.net/oauth2/auth
+    nginx.ingress.kubernetes.io/proxy-body-size: 100m
+spec:
+  rules:
+    - host: webcheck.kube-dev.incubateur.net
+      http:
+        paths:
+          - backend:
+              service:
+                name: webcheck
+                port:
+                  number: 80
+            path: /
+            pathType: ImplementationSpecific
+  tls:
+    - hosts:
+        - webcheck.kube-dev.incubateur.net
+      secretName: webcheck2-tls-secret
+
+---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: pvc-webcheck
+#   namespace: webcheck
+# spec:
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: 50Gi
+#   storageClassName: csi-cinder-high-speed
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: webcheck
+  namespace: webcheck
+data:
+  HELLO: WORLD
