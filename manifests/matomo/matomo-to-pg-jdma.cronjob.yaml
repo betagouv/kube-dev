@@ -1,0 +1,40 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  labels:
+    application: matomo
+  name: matomo-to-pg-jdma
+  namespace: matomo
+spec:
+  schedule: 0 * * * *
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 28800
+      template:
+        metadata:
+          labels:
+            application: matomo
+          name: matomo-to-pg-jdma
+        spec:
+          nodeSelector:
+            kubernetes.io/hostname: default-pool-node-c117c3
+          restartPolicy: OnFailure
+          containers:
+            - name: matomo-to-pg
+              image: ghcr.io/betagouv/matomo-to-pg/sync
+              resources:
+                requests:
+                  cpu: "0.3"
+                  memory: 256Mi
+                limits:
+                  cpu: "1"
+                  memory: 512Mi
+              env:
+                - name: NODE_TLS_REJECT_UNAUTHORIZED
+                  value: "0"
+              envFrom:
+                - secretRef:
+                    name: matomo-to-pg-jdma
