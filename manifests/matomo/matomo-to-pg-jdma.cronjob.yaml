@@ -35,6 +35,8 @@ spec:
               env:
                 - name: NODE_TLS_REJECT_UNAUTHORIZED
                   value: "0"
+                - name: NODE_OPTIONS
+                  value: "--max-old-space-size=16384"
               envFrom:
                 - secretRef:
                     name: matomo-to-pg-jdma
