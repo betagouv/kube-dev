@@ -28,10 +28,10 @@ spec:
               resources:
                 requests:
                   cpu: "0.3"
-                  memory: 256Mi
-                limits:
-                  cpu: "1"
                   memory: 512Mi
+                limits:
+                  cpu: "2"
+                  memory: 1024Mi
               env:
                 - name: NODE_TLS_REJECT_UNAUTHORIZED
                   value: "0"
