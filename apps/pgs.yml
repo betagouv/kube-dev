@@ -31,7 +31,7 @@ spec:
             parameters:
               - name: "image.repository"
                 value: "bitnamilegacy/postresql"
-              - name: "imagePullSecrets[0]"
+              - name: "image.pullSecrets[0]"
                 value: "docker-hub-secret"
               - name: "nameOverride"
                 value: "{{id}}"
