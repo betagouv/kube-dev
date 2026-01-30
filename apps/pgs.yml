@@ -30,9 +30,7 @@ spec:
           helm:
             parameters:
               - name: "image.repository"
-                value: "bitnamilegacy/postresql"
-              - name: "image.pullSecrets[0]"
-                value: "docker-hub-secret"
+                value: "bitnamilegacy/postgresql"
               - name: "nameOverride"
                 value: "{{id}}"
             valueFiles:
