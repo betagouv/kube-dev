@@ -24,7 +24,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: matomo-to-pg
-              image: ghcr.io/betagouv/matomo-to-pg/sync
+              image: ghcr.io/betagouv/matomo-to-pg/sync:beta
               resources:
                 requests:
                   cpu: "0.3"
