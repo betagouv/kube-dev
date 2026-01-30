@@ -13,8 +13,6 @@ spec:
             namespace: lychee
           - id: matomo-beta
             namespace: matomo
-          - id: vaultwarden-test1
-            namespace: tooling
           - id: active-pieces
             namespace: tooling
   template:
